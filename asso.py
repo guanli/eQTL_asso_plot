@@ -5,7 +5,7 @@ import numpy as np
 import math
 
 '''
-This function prcess the gene file
+This function prcesses the gene file
 Output is a one-row file for a gene
 Each individual is in a column
 
