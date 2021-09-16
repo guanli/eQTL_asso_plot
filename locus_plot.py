@@ -3,6 +3,23 @@ import matplotlib.ticker as ticker
 import math
 import pandas as pd
 
+class Locus:   
+    def __int__(self, chrom, locus_start, locus_end):
+        self.chr=chrom
+        self.locus_start=locus_start
+        self.locus_end=locus_end
+    
+    def get_genes(self, gene_info_file):
+        '''return a dataframe where each row is a gene with gene_start, gene_end and strand'''
+        gene_info = pd.read_csv(gene_info_file, sep='[\t,]', header=0)
+        gene_info = gene_info.loc[gene_info['chr']==self.chr,]
+        gene_info = gene_info.loc[gene_info['start']>= self.locus_start,]
+        gene_info = gene_info.loc[gene_info['end']<= self.locus_end,]        
+        if (gene_info.shape[0] < 1):
+            print('No genes in this locus')
+        else:
+            return gene_info
+
 def locus_plot(res, pval_colname, snp_pos, pos_colname, snps, snp, tick_spacing=100):
     res=pd.merge(res,snp_pos,left_on=res.index, right_on=snp_pos.index)
     res.index=res.key_0
